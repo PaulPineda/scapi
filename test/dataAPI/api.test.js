@@ -10,10 +10,21 @@ describe('API for handling serialised JSON from Skillcast CFML content query', f
   // see if this is carried forward through the testing once set
   // indices is relied upon by later tests so start with undefined, then ensure it
   // works and then use it to conduct later tests
-  let indices;
+  let indices,
+    columns = testContent_INPUT.COLUMNS;
+
+  describe('.createColumnsIndexMap(columns:Array, TARGET_COLUMNS:Array):Object', () => {
+      it('is a function', () => {
+        assert.isFunction(api.createColumnsIndexMap, 'createColumnsIndexMap exists and is a function')
+      });
+      it('returns a hash map of target columns and indices', () => {
+        var indexMap = createColumnsIndexMap(columns, TARGET_COLUMNS);
+        
+      });
+  });
 
   describe('.getIndices(columns:Array, TARGET_COLUMNS:Object):Array', () => {
-    let columns = testContent_INPUT.COLUMNS;
+
 
     it('is a function', () => {
       assert.isFunction(api.getIndices, 'getIndices exists and is a Function')
@@ -28,13 +39,13 @@ describe('API for handling serialised JSON from Skillcast CFML content query', f
   describe('.dataArrayElementToObject(targetElement:Array, indices:Array, TARGET_COLUMNS:Object):Object', () => {
     let targetElementArray = testContent_INPUT.DATA[0],
       expected = testContent_OUTPUT[0];
-
     it('is a function', () => {
-      assert.isFunction(api.dataArrayElementToObject, 'getIndices exists and is a Function')
+      assert.isFunction(api.dataArrayElementToObject, 'dataArrayElementToObject exists and is a Function')
     });
 
     it('returns an element object from targetElementArray', () => {
-      api.dataArrayElementToObject(targetElementArray, indices, TARGET_COLUMNS)
+      const newElemObj = api.dataArrayElementToObject(targetElementArray, indices, TARGET_COLUMNS);
+      assert.deepEqual(newElemObj, expected);
     });
   });
 
@@ -44,7 +55,7 @@ describe('API for handling serialised JSON from Skillcast CFML content query', f
       result;
 
     it('is a function', () => {
-      assert.isFunction(api.flattenData, 'getIndices exists and is a Function')
+      assert.isFunction(api.flattenData, 'flattenData exists and is a Function')
     });
 
     it('returns an array of element objects', () => {
@@ -56,7 +67,7 @@ describe('API for handling serialised JSON from Skillcast CFML content query', f
   describe('.addPropertyToOutput(data:Array, propertiesToAdd:Object):Array', () => {
     let propertiesToAdd = { parentid: null };
     it('is a function', () => {
-      assert.isFunction(api.addPropertyToOutput, 'getIndices exists and is a Function')
+      assert.isFunction(api.addPropertyToOutput, 'addPropertyToOutput exists and is a Function')
     });
 
     it('returns an array of element objects', () => {
